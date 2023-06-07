@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>11</java.version>
 		<springfox-swagger.version>3.0.0</springfox-swagger.version>
+		<testcontainers.version>1.16.2</testcontainers.version>
 	</properties>
 	<dependencies>
 		<dependency>
