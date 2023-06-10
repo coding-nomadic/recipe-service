@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class CommentController {
 
     @Autowired
