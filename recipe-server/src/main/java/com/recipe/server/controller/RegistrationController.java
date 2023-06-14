@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/signup")
+@CrossOrigin
 public class RegistrationController {
 
     @Autowired
