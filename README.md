@@ -1,6 +1,6 @@
 # recipe-server
 
-This is Backend for recipe server built in springboot, JWT Token and email service. Front end is implemented in react js
+This is Backend for recipe server built in springboot, JWT Token and email service. UI is implemented in react JS
 
 ## Features in this application- 
 
