@@ -34,20 +34,10 @@ public class Recipe {
     @Column(name = "cook_time", nullable = false)
     private String cookTime;
 
-    //@Column(name = "ratings", nullable = false)
-    //private List<Integer> ratings;
-
-    //@Column(name = "ingredient_id", nullable = false)
-    //private String ingredient_id;
-
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "ingredient_id",insert="false",update="false")
-//    private Ingredient ingredient;
 }
