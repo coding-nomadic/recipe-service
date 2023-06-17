@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequestMapping(value = "/api/v1/recipes")
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 public class RecipeController {
     @Autowired
     private RecipeService recipeService;
