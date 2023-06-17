@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 @Slf4j
 public class AuthenticationController {
 
