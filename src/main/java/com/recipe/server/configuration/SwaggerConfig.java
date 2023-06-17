@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Blog Service Rest Endpoints", "APIs for Blog.", "1.0", "Terms of service",
+        return new ApiInfo("Recipe Service Rest Endpoints", "APIs for Blog.", "1.0", "Terms of service",
                                         new Contact("80888676", "www.blogservice.com", "tnzngdw@gmail.com"),
                                         "License of API", "API license URL", Collections.emptyList());
     }
