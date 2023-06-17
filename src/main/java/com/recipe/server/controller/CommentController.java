@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin
+@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 public class CommentController {
 
     @Autowired
