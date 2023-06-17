@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import java.io.IOException;
 import java.util.List;
 
 @RequestMapping(path = "/api/v1/categories")
 @RestController
-@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 public class CategoryController {
 
     @Autowired
