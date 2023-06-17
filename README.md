@@ -30,6 +30,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Redis for caching
 - MySQL Database
 - Docker
+- CI/CD
 - Junit and Integration Testing with testcontainers
 
 ## Application API server is running in Heroku cloud with this endpoint where swagger is exposed -
