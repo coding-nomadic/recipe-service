@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping(path = "/api")
-@CrossOrigin
+@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 public class LoginController {
 
     @Autowired
