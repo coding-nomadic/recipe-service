@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping(path = "/signup")
-@CrossOrigin
+@CrossOrigin(origins = "https://recipe-himalayan.netlify.app")
 public class RegistrationController {
 
     @Autowired
