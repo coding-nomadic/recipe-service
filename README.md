@@ -27,7 +27,6 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Spring Data JPA
 - Spring Mail
 - Apache Maven
-- Redis for caching
 - MySQL Database
 - Docker
 - CI/CD
