@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RequestMapping(path = "/api/v1/categories")
+@CrossOrigin
 @RestController
 public class CategoryController {
 
