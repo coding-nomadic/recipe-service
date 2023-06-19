@@ -1,19 +1,20 @@
 package com.recipe.server.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @Table(name = "tbl_recipe")
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Entity
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,7 +35,7 @@ public class Recipe {
     @Column(name = "cook_time", nullable = false)
     private String cookTime;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "recipe",fetch = FetchType.EAGER)
     private Set<Comment> comments = new HashSet<>();
     private String ingredient;
     @ManyToOne(fetch = FetchType.EAGER)
