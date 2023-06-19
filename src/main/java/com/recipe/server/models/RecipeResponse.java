@@ -25,6 +25,8 @@ public class RecipeResponse implements Serializable {
     private String prepTime;
 
     private String cookTime;
+
+    private String ingredient;
     private Set<CommentResponse> comments;
     private Long categoryId;
 
