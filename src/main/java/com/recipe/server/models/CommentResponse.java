@@ -14,5 +14,6 @@ public class CommentResponse implements Serializable {
 
     private long id;
 
+    private int ratings;
     private String body;
 }
