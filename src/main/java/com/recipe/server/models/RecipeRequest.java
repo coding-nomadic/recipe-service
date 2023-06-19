@@ -27,6 +27,10 @@ public class RecipeRequest implements Serializable {
     @NotEmpty
     @Size(min = 10, message = "Recipe prep time should have at least 10 characters")
     private String prepTime;
+
+    @NotEmpty
+    @Size(min = 10, message = "Recipe Ingredient should have at least 10 characters")
+    private String ingredient;
     @NotEmpty
     @Size(min = 10, message = "Recipe cook time should have at least 10 characters")
     private String cookTime;
