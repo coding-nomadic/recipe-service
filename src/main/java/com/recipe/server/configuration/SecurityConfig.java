@@ -50,16 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .httpBasic();
-        http.cors(); // disable this line to reproduce the CORS 401
-        return http.build();
-    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers("/authenticate","/signup","/swagger-resources/**", "/swagger-ui/**",
@@ -67,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll().anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+         http.cors();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);;
     }
 
