@@ -1,12 +1,18 @@
 package com.recipe.server.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "tbl_comment")
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@Entity
 public class Comment  {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -15,7 +21,8 @@ public class Comment  {
     private String body;
 
     private int ratings;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "recipe_id")
+    @JsonIgnore
     private Recipe recipe;
 }
