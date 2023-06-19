@@ -1,5 +1,6 @@
 package com.recipe.server.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.server.entity.Category;
 import com.recipe.server.entity.Recipe;
 import com.recipe.server.exceptions.ResourceNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
