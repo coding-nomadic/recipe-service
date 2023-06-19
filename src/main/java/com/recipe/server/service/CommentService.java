@@ -55,10 +55,9 @@ public class CommentService {
         if (!comment.getRecipe().getId().equals(post.getId())) {
             throw new RecipeServiceException(COMMENT_NOT_BELONG, "102");
         }
-        Comment updateComment=new Comment();
-        updateComment.setBody(commentRequest.getBody());
-        updateComment.setRatings(commentRequest.getRatings());
-        Comment commentResponse = commentRepository.save(updateComment);
+        comment.setBody(commentRequest.getBody());
+        comment.setRatings(commentRequest.getRatings());
+        Comment commentResponse = commentRepository.save(comment);
         return mapper.map(commentResponse, CommentResponse.class);
     }
 
