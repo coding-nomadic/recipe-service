@@ -1,5 +1,7 @@
 package com.recipe.server.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.server.entity.Comment;
 import com.recipe.server.entity.Recipe;
 import com.recipe.server.exceptions.RecipeServiceException;
@@ -53,8 +55,10 @@ public class CommentService {
         if (!comment.getRecipe().getId().equals(post.getId())) {
             throw new RecipeServiceException(COMMENT_NOT_BELONG, "102");
         }
-        comment.setBody(commentRequest.getBody());
-        Comment commentResponse = commentRepository.save(comment);
+        Comment updateComment=new Comment();
+        updateComment.setBody(commentRequest.getBody());
+        updateComment.setRatings(commentRequest.getRatings());
+        Comment commentResponse = commentRepository.save(updateComment);
         return mapper.map(commentResponse, CommentResponse.class);
     }
 
