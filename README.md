@@ -7,15 +7,8 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Login with username/password
 - Register with username/password
 - Email verification
-- View Recipes by Category with pagination
-- Create Recipe
-- Fetch Recipe
-- Update Recipe
-- Delete Recipe
-- Create Category
-- Fetch Category
-- Update Category
-- Delete Category
+- View Recipes
+- comment, ratings and view ingredients
 
 ## Tools and Technologies
 
