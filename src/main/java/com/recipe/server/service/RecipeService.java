@@ -1,6 +1,5 @@
 package com.recipe.server.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipe.server.entity.Category;
 import com.recipe.server.entity.Recipe;
 import com.recipe.server.exceptions.ResourceNotFoundException;
@@ -11,10 +10,11 @@ import com.recipe.server.repository.RecipeRepository;
 import com.recipe.server.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +33,8 @@ public class RecipeService {
     @Autowired
     UserRepository userRepository;
 
+
+    @CacheEvict(value = "recipes", allEntries = true)
     public RecipeResponse saveRecipe(RecipeRequest recipeRequest) {
         categoryRepository.findById(recipeRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category ID not found", "102"));
         userRepository.findById(Long.valueOf(recipeRequest.getUserId())).orElseThrow(() -> new ResourceNotFoundException("User ID not found", "102"));
@@ -40,11 +42,13 @@ public class RecipeService {
         return modelMapper.map(post, RecipeResponse.class);
     }
 
+    @CacheEvict(value = "recipes", allEntries = true)
     public void deleteById(Long id) {
         postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recipe ID not found for " + id, "102"));
         postRepository.deleteById(id);
     }
 
+    @CacheEvict(value = "recipes", allEntries = true)
     public RecipeResponse updateRecipe(RecipeRequest recipeRequest, Long id) {
         Recipe post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recipe not found", "102"));
         Category category = categoryRepository.findById(recipeRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found", "102"));
@@ -58,10 +62,12 @@ public class RecipeService {
         return modelMapper.map(postResponse, RecipeResponse.class);
     }
 
+    @Cacheable("recipes")
     public List<Recipe> getAllRecipes() {
         return postRepository.findAll();
     }
 
+    @Cacheable("recipes")
     public List<RecipeRequest> getPostsByCategory(Long categoryId) {
         List<Recipe> lists = postRepository.findByCategoryId(categoryId);
         return lists.stream().map(p -> modelMapper.map(p, RecipeRequest.class)).collect(Collectors.toList());
