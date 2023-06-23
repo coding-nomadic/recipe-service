@@ -12,7 +12,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RequestMapping(path = "/api/v1/categories")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class CategoryController {
 
