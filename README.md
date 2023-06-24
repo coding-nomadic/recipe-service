@@ -29,3 +29,5 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 ## Application API server is running in Heroku cloud with this endpoint where swagger is exposed -
 
 - https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
+- Token servce repo - https://github.com/coding-nomadic/authorisation-service
+- react js UI client repo -https://github.com/coding-nomadic/recipe-sharing-client
