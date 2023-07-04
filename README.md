@@ -36,3 +36,4 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
 - Token servce repo - https://github.com/coding-nomadic/authorisation-service
 - react js UI client repo -https://github.com/coding-nomadic/recipe-sharing-client
+- React UI running here - https://recipe-himalayan.netlify.app/
