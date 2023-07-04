@@ -26,7 +26,12 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Junit and Integration Testing with testcontainers
 - Improved API performance by applying caching
 
-## Application API server is running in Heroku cloud with this endpoint where swagger is exposed -
+## High Level Design for the Application - 
+
+![image](https://github.com/coding-nomadic/recipe-service/assets/8009104/94f1fba3-5e7f-492c-a392-d6e7ebd0be4c)
+
+
+## Application API server is running in Render Cloud with this endpoint where swagger is exposed -
 
 - https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
 - Token servce repo - https://github.com/coding-nomadic/authorisation-service
