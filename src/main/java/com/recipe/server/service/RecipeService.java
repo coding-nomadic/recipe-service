@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,12 +65,11 @@ public class RecipeService {
 
     @Cacheable("recipes")
     public List<Recipe> getAllRecipes() {
-        return postRepository.findAll();
+        return postRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Cacheable("recipes")
     public List<RecipeRequest> getPostsByCategory(Long categoryId) {
-        List<Recipe> lists = postRepository.findByCategoryId(categoryId);
-        return lists.stream().map(p -> modelMapper.map(p, RecipeRequest.class)).collect(Collectors.toList());
+        return postRepository.findByCategoryId(categoryId).stream().map(p -> modelMapper.map(p, RecipeRequest.class)).collect(Collectors.toList());
     }
 }
