@@ -26,6 +26,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Spring Swagger Fox UI 
 - Spring Data JPA
 - Spring Mail
+- Spring Validation
 - Apache Maven
 - PostGreSQL Database
 - Caching
