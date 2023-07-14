@@ -12,8 +12,13 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - comments, ratings and view ingredients, cuisines
 - Stores API data in Redis Cache to minimize network calls.
 
-## Tools and Technologies
+## Microservices - 
 
+- React-UI Service: Front-end client UI which displays data and makes API calls using Axios API.
+- Authentication Service: Creates user account and handles username/password authentication, login/logout.
+- Recipe Service: It allows to create recipes, view, update, comment, ratings etc.
+
+## Tools and Technologies
 - Java 11
 - Spring Boot
 - Spring Web MVC
