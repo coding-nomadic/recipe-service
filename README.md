@@ -38,7 +38,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 ![image](https://github.com/coding-nomadic/recipe-service/assets/8009104/94f1fba3-5e7f-492c-a392-d6e7ebd0be4c)
 
 
-## Application API server is running in Render Cloud with this endpoint where swagger is exposed -
+## Application APIs are deployed in Render Cloud and UI is deployed in netlify -
 
 - Swagger: https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
 - Recipe Service deployed here: https://recipe-service-ixhm.onrender.com
