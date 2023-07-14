@@ -4,7 +4,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 
 ## Features in this application- 
 
-- Jwt support for quick login.
+- JwT support for quick login.
 - Regular Username/Password authentication.
 - Stores user information in the PostgreSQL database.
 - Email verification to confirm during user registration
@@ -28,6 +28,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Spring Mail
 - Apache Maven
 - PostGreSQL Database
+- Caching
 - Docker
 - CI/CD
 - Junit and Mockito for Unit Testing
@@ -39,7 +40,8 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 
 ## Application API server is running in Render Cloud with this endpoint where swagger is exposed -
 
-- https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
-- Token servce repo - https://github.com/coding-nomadic/authorisation-service
-- react js UI client repo -https://github.com/coding-nomadic/recipe-sharing-client
-- React UI running here - https://recipe-himalayan.netlify.app/
+- Swagger: https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
+- Recipe Service deployed here: https://recipe-service-ixhm.onrender.com
+- Authentication Service Repo: https://github.com/coding-nomadic/authorisation-service
+- React UI Service Repo: https://github.com/coding-nomadic/recipe-sharing-client
+- React UI deployed here: https://recipe-himalayan.netlify.app/
