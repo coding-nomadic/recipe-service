@@ -1,11 +1,8 @@
 package com.recipe.server.filter;
 
 import com.recipe.server.exceptions.RecipeServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -13,11 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Component
 public class Interceptor extends OncePerRequestFilter {
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Value("${token.service.url}")
     private String url;
@@ -30,12 +29,27 @@ public class Interceptor extends OncePerRequestFilter {
         }
         String token = authorizationHeader.substring(7);
         try {
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(url + "/" + token, String.class);
-        } catch (Exception exception) {
-            if(exception.getLocalizedMessage().contains("500")){
+            String completeUrl = url + "/" + token;
+            HttpResponse<String> httpResponse = callExternalApi(completeUrl);
+            logger.info("Http Status code from the Token service : "+httpResponse.statusCode());
+            if (httpResponse.statusCode()!=200) {
                 throw new RecipeServiceException("Invalid Token!", "102");
+            }else{
+                filterChain.doFilter(request, response);
             }
+        } catch (Exception exception) {
+            logger.error("Exception occurred while calling external API : " + exception.getLocalizedMessage());
         }
-        filterChain.doFilter(request, response);
+    }
+
+    /**
+     * @param url
+     * @return
+     * @throws Exception
+     */
+    private HttpResponse<String> callExternalApi(String url) throws Exception {
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 }
