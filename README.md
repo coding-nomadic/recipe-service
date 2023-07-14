@@ -7,9 +7,9 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Jwt support for quick login.
 - Regular Username/Password authentication.
 - Stores user information in the PostgreSQL database.
-- Email verification
-- View Recipes
-- comment, ratings and view ingredients
+- Email verification to confirm during user registration
+- Create, view, update recipes, 
+- comments, ratings and view ingredients, cuisines
 - Stores API data in Redis Cache to minimize network calls.
 
 ## Tools and Technologies
