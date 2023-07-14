@@ -4,7 +4,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 
 ## Features in this application- 
 
-- JwT support for quick login.
+- JWT token support for quick login.
 - Regular Username/Password authentication.
 - Stores user information in the PostgreSQL database.
 - Email verification to confirm during user registration
