@@ -8,6 +8,12 @@ import java.net.http.HttpResponse;
 public class ClientApiUtils {
 
     ClientApiUtils(){}
+      /**
+     * 
+     * @param url
+     * @return
+     * @throws Exception
+     */
     public static HttpResponse<String> callExternalApi(String url) throws Exception {
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
