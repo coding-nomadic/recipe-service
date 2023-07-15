@@ -1,6 +1,7 @@
 package com.recipe.server.filter;
 
 import com.recipe.server.exceptions.RecipeServiceException;
+import com.recipe.server.utils.ClientApiUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,7 +31,7 @@ public class Interceptor extends OncePerRequestFilter {
         String token = authorizationHeader.substring(7);
         try {
             String completeUrl = url + "/" + token;
-            HttpResponse<String> httpResponse = callExternalApi(completeUrl);
+            HttpResponse<String> httpResponse = ClientApiUtils.callExternalApi(completeUrl);
             logger.info("Http Status code from the Token service : "+httpResponse.statusCode());
             if (httpResponse.statusCode()!=200) {
                 throw new RecipeServiceException("Invalid Token!", "102");
@@ -42,14 +43,4 @@ public class Interceptor extends OncePerRequestFilter {
         }
     }
 
-    /**
-     * @param url
-     * @return
-     * @throws Exception
-     */
-    private HttpResponse<String> callExternalApi(String url) throws Exception {
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
-        return httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-    }
 }
