@@ -10,7 +10,7 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Email verification to confirm during user registration
 - Create, view, update recipes, 
 - comments, ratings and view ingredients, cuisines
-- Stores API data in Redis Cache to minimize network calls.
+- Stores API data in Cache to minimize network calls.
 
 ## Microservices - 
 
