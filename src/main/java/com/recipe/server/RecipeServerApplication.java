@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableCaching
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-    @EnableScheduling
+@EnableScheduling
 public class RecipeServerApplication {
 
     public static void main(String[] args) {
