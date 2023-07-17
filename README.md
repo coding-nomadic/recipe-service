@@ -11,6 +11,8 @@ This is Backend for recipe server built in springboot, JWT Token and email servi
 - Create, view, update recipes, 
 - comments, ratings and view ingredients, cuisines
 - Stores API data in Cache to minimize network calls.
+- Scheduled tasks send email every 14 days to the most liked recipe makers
+- Analytics API covered to show case in UI.
 
 ## Microservices - 
 
