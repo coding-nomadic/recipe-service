@@ -22,41 +22,45 @@ import java.util.Map;
 @Slf4j
 public class LoggingAspect {
 
+    private final ObjectMapper mapper;
+
     @Autowired
-    private ObjectMapper mapper;
+    public LoggingAspect(ObjectMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Pointcut("within(com.recipe.server.controller..*)")
-    public void pointcut() {
+    public void loggableMethods() {
     }
 
-    @Before("pointcut()")
-    public void logMethod(JoinPoint joinPoint) throws JsonProcessingException {
+    @Before("loggableMethods()")
+    public void logMethodEntry(JoinPoint joinPoint) throws JsonProcessingException {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         try {
-            log.info("Entered Requests with {} : {} ", signature.getMethod().getName(), mapper.writeValueAsString(joinPoint.getArgs()));
+            log.info("Entered method '{}' with arguments: {}", signature.getMethod().getName(), mapper.writeValueAsString(joinPoint.getArgs()));
         } catch (JsonProcessingException e) {
-            log.error("Error while converting", e);
+            log.error("Error while converting to JSON", e);
         }
     }
 
-    @AfterReturning(pointcut = "pointcut()", returning = "entity")
-    public void logMethodAfter(JoinPoint joinPoint, ResponseEntity<?> entity) {
+    @AfterReturning(pointcut = "loggableMethods()", returning = "result")
+    public void logMethodExit(JoinPoint joinPoint, ResponseEntity<?> result) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         try {
-            log.info("Response with {} : {}", signature.getMethod().getName(), mapper.writeValueAsString(entity.getBody()));
+            log.info("Exited method '{}' with response: {}", signature.getMethod().getName(), mapper.writeValueAsString(result.getBody()));
         } catch (JsonProcessingException exception) {
-            log.error("Error while converting", exception);
+            log.error("Error while converting response to JSON", exception);
         }
     }
 
-    public Map<String, Object> getParameters(JoinPoint joinPoint) {
+    public Map<String, Object> extractMethodParameters(JoinPoint joinPoint) {
         CodeSignature signature = (CodeSignature) joinPoint.getSignature();
-        HashMap<String, Object> map = new HashMap<>();
         String[] parameterNames = signature.getParameterNames();
+        Object[] parameterValues = joinPoint.getArgs();
+        Map<String, Object> parameterMap = new HashMap<>();
         for (int i = 0; i < parameterNames.length; i++) {
-            map.put(parameterNames[i], joinPoint.getArgs()[i]);
+            parameterMap.put(parameterNames[i], parameterValues[i]);
         }
-        return map;
+        return parameterMap;
     }
-
 }
