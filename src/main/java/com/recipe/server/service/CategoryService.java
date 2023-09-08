@@ -20,37 +20,46 @@ import java.util.stream.Collectors;
 @Transactional
 public class CategoryService {
 
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+
     @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    ModelMapper modelMapper;
+    public CategoryService(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
+    }
+
     @CacheEvict(value = "categories", allEntries = true)
     public CategoryResponse saveCategory(CategoryRequest categoryRequest) {
         Category category = modelMapper.map(categoryRequest, Category.class);
-        Category categoryResponse = categoryRepository.save(category);
-        return modelMapper.map(categoryResponse, CategoryResponse.class);
+        Category savedCategory = categoryRepository.save(category);
+        return modelMapper.map(savedCategory, CategoryResponse.class);
     }
+
     @CacheEvict(value = "categories", allEntries = true)
     public CategoryResponse updateCategory(CategoryRequest categoryRequest, Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(
-                                        () -> new ResourceNotFoundException("Category Id not found", "102"));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category ID not found", "102"));
         category.setName(categoryRequest.getName());
-        category.setId(id);
-        Category categoryResponse = categoryRepository.save(category);
-        return modelMapper.map(categoryResponse, CategoryResponse.class);
+        Category updatedCategory = categoryRepository.save(category);
+        return modelMapper.map(updatedCategory, CategoryResponse.class);
     }
+
     @Cacheable("categories")
     public CategoryRequest getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(
-                                        () -> new ResourceNotFoundException("Category ID not found", "102"));
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category ID not found", "102"));
         return modelMapper.map(category, CategoryRequest.class);
     }
+
     @Cacheable("categories")
     public List<CategoryRequest> getAllCategories() {
         List<Category> categories = categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-        return categories.stream().map(category -> modelMapper.map(category, CategoryRequest.class))
-                                        .collect(Collectors.toList());
+        return categories.stream()
+                .map(category -> modelMapper.map(category, CategoryRequest.class))
+                .collect(Collectors.toList());
     }
+
     @CacheEvict(value = "categories", allEntries = true)
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
