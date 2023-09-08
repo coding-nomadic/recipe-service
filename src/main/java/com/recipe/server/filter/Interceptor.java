@@ -11,36 +11,35 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Component
-public class Interceptor extends OncePerRequestFilter {
+public class TokenValidationInterceptor extends OncePerRequestFilter {
 
-    @Value("${token.service.url}")
-    private String url;
+    private final String tokenServiceUrl;
+
+    public TokenValidationInterceptor(@Value("${token.service.url}") String tokenServiceUrl) {
+        this.tokenServiceUrl = tokenServiceUrl;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null) {
-            throw new RecipeServiceException("Authorisation in header cannot be null", "102");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new RecipeServiceException("Authorization header is missing or invalid", "102");
         }
         String token = authorizationHeader.substring(7);
         try {
-            String completeUrl = url + "/" + token;
+            String completeUrl = tokenServiceUrl + "/" + token;
             HttpResponse<String> httpResponse = ClientApiUtils.callExternalApi(completeUrl);
-            logger.info("Http Status code from the Token service : "+httpResponse.statusCode());
-            if (httpResponse.statusCode()!=200) {
+            int statusCode = httpResponse.statusCode();
+            if (statusCode != 200) {
                 throw new RecipeServiceException("Invalid Token!", "102");
-            }else{
+            } else {
                 filterChain.doFilter(request, response);
             }
-        } catch (Exception exception) {
-            logger.error("Exception occurred while calling external API : " + exception.getLocalizedMessage());
+        } catch (IOException exception) {
+            throw new RecipeServiceException("Error occurred while calling external API: " + exception.getMessage(), "102");
         }
     }
-
 }
