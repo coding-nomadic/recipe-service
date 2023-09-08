@@ -18,7 +18,10 @@ import java.util.List;
 @Slf4j
 public class ReportGenerationScheduler {
 
-    private final String emailText = "Your recipe has been chosen as the Recipe of the week !";
+    private static final String EMAIL_TEXT = "Your recipe has been chosen as the Recipe of the week!";
+    private static final String EMAIL_API_PARAM = "emailTo";
+    private static final String EMAIL_TEXT_API_PARAM = "emailText";
+
     @Value("${token.email.url}")
     private String emailUrl;
 
@@ -29,20 +32,27 @@ public class ReportGenerationScheduler {
     private UserRepository userRepository;
 
     @Scheduled(cron = "0 0 0 1/14 * ?") // Runs at midnight (00:00:00) every 14 days
-    public void generateReports() {
+    public void generateReportsAndSendEmails() {
         List<Recipe> popularRecipes = analyticsService.generatePopularRecipesReport();
         for (Recipe recipe : popularRecipes) {
-            User user = userRepository.findById(recipe.getId()).orElseThrow(() -> new ResourceNotFoundException("User Id not found", "102"));
+            User user = userRepository.findById(recipe.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User Id not found", "102"));
+
             String emailTo = user.getEmail();
-            String url = emailUrl + "?emailTo=" + user.getEmail() + "&emailText=" + emailText;
+            String emailApiUrl = buildEmailApiUrl(emailTo);
+
             try {
-                HttpResponse<String> httpResponse = ClientApiUtils.callExternalApi(url);
+                HttpResponse<String> httpResponse = ClientApiUtils.callExternalApi(emailApiUrl);
                 if (httpResponse.statusCode() == 200) {
-                    log.info("successfully sent email to the users : " + emailTo);
+                    log.info("Successfully sent email to the user: " + emailTo);
                 }
             } catch (Exception e) {
-                log.error("Exception occurred while calling external API : " + e.getLocalizedMessage());
+                log.error("Exception occurred while calling external API: " + e.getLocalizedMessage());
             }
         }
+    }
+
+    private String buildEmailApiUrl(String emailTo) {
+        return emailUrl + "?" + EMAIL_API_PARAM + "=" + emailTo + "&" + EMAIL_TEXT_API_PARAM + "=" + EMAIL_TEXT;
     }
 }
