@@ -7,25 +7,35 @@ import com.recipe.server.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
-@RequestMapping(value = "/api/v1/recipes")
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/recipes")
 public class RecipeController {
+
+    private final RecipeService recipeService;
+
     @Autowired
-    private RecipeService recipeService;
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
 
     @PostMapping
-    public ResponseEntity<RecipeResponse> createRecipe(@RequestBody RecipeRequest postRequest) {
-        RecipeResponse postResponse = recipeService.saveRecipe(postRequest);
-        return new ResponseEntity<>(postResponse, HttpStatus.CREATED);
+    public ResponseEntity<RecipeResponse> createRecipe(@Validated @RequestBody RecipeRequest recipeRequest) {
+        RecipeResponse recipeResponse = recipeService.saveRecipe(recipeRequest);
+        return new ResponseEntity<>(recipeResponse, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "{id}")
-    public RecipeResponse updateRecipe(@RequestBody RecipeRequest postRequest, @PathVariable Long id) {
-        return recipeService.updateRecipe(postRequest, id);
+    public RecipeResponse updateRecipe(
+            @Validated @RequestBody RecipeRequest recipeRequest,
+            @PathVariable Long id
+    ) {
+        return recipeService.updateRecipe(recipeRequest, id);
     }
 
     @GetMapping
