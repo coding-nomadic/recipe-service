@@ -22,6 +22,11 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RecipeService {
+
+    private static final String CATEGORY_NOT_FOUND = "Category ID not found";
+    private static final String USER_NOT_FOUND = "User ID not found";
+    private static final String RECIPE_NOT_FOUND = "Recipe not found";
+
     @Autowired
     RecipeRepository postRepository;
 
@@ -34,31 +39,33 @@ public class RecipeService {
     @Autowired
     UserRepository userRepository;
 
-
     @CacheEvict(value = "recipes", allEntries = true)
     public RecipeResponse saveRecipe(RecipeRequest recipeRequest) {
-        categoryRepository.findById(recipeRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category ID not found", "102"));
-        userRepository.findById(Long.valueOf(recipeRequest.getUserId())).orElseThrow(() -> new ResourceNotFoundException("User ID not found", "102"));
+        validateCategoryExists(recipeRequest.getCategoryId());
+        validateUserExists(recipeRequest.getUserId());
+
         Recipe post = postRepository.save(modelMapper.map(recipeRequest, Recipe.class));
         return modelMapper.map(post, RecipeResponse.class);
     }
 
     @CacheEvict(value = "recipes", allEntries = true)
     public void deleteById(Long id) {
-        postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recipe ID not found for " + id, "102"));
+        postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RECIPE_NOT_FOUND, "102"));
         postRepository.deleteById(id);
     }
 
     @CacheEvict(value = "recipes", allEntries = true)
     public RecipeResponse updateRecipe(RecipeRequest recipeRequest, Long id) {
-        Recipe post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recipe not found", "102"));
-        Category category = categoryRepository.findById(recipeRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found", "102"));
+        Recipe post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(RECIPE_NOT_FOUND, "102"));
+        validateCategoryExists(recipeRequest.getCategoryId());
+
         post.setPrepTime(recipeRequest.getPrepTime());
         post.setDescription(recipeRequest.getDescription());
         post.setCookTime(recipeRequest.getCookTime());
         post.setAuthor(recipeRequest.getAuthor());
         post.setUserId(recipeRequest.getUserId());
-        post.setCategory(category);
+        post.setCategory(getCategoryById(recipeRequest.getCategoryId()));
+
         Recipe postResponse = postRepository.save(post);
         return modelMapper.map(postResponse, RecipeResponse.class);
     }
@@ -70,6 +77,21 @@ public class RecipeService {
 
     @Cacheable("recipes")
     public List<RecipeRequest> getPostsByCategory(Long categoryId) {
-        return postRepository.findByCategoryId(categoryId).stream().map(p -> modelMapper.map(p, RecipeRequest.class)).collect(Collectors.toList());
+        return postRepository.findByCategoryId(categoryId)
+                .stream()
+                .map(p -> modelMapper.map(p, RecipeRequest.class))
+                .collect(Collectors.toList());
+    }
+
+    private void validateCategoryExists(Long categoryId) {
+        categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(CATEGORY_NOT_FOUND, "102"));
+    }
+
+    private void validateUserExists(String userId) {
+        userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND, "102"));
+    }
+
+    private Category getCategoryById(Long categoryId) {
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(CATEGORY_NOT_FOUND, "102"));
     }
 }
