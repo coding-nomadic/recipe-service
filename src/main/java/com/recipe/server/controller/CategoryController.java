@@ -3,6 +3,7 @@ package com.recipe.server.controller;
 import com.recipe.server.models.CategoryRequest;
 import com.recipe.server.models.CategoryResponse;
 import com.recipe.server.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
