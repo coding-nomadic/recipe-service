@@ -26,20 +26,33 @@ public class TokenValidationInterceptor extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new RecipeServiceException("Authorization header is missing or invalid", "102");
+            handleInvalidAuthorization(response);
+            return;
         }
         String token = authorizationHeader.substring(7);
         try {
             String completeUrl = tokenServiceUrl + "/" + token;
             HttpResponse<String> httpResponse = ClientApiUtils.callExternalApi(completeUrl);
-            int statusCode = httpResponse.statusCode();
-            if (statusCode != 200) {
-                throw new RecipeServiceException("Invalid Token!", "102");
-            } else {
-                filterChain.doFilter(request, response);
-            }
+            handleTokenValidationResponse(httpResponse, filterChain, response);
         } catch (IOException exception) {
-            throw new RecipeServiceException("Error occurred while calling external API: " + exception.getMessage(), "102");
+            handleApiCallError(exception, response);
         }
+    }
+
+    private void handleInvalidAuthorization(HttpServletResponse response) {
+        throw new RecipeServiceException("Authorization header is missing or invalid", "102");
+    }
+
+    private void handleTokenValidationResponse(HttpResponse<String> httpResponse, FilterChain filterChain, HttpServletResponse response) throws IOException, ServletException {
+        int statusCode = httpResponse.statusCode();
+        if (statusCode != 200) {
+            throw new RecipeServiceException("Invalid Token!", "102");
+        } else {
+            filterChain.doFilter(request, response);
+        }
+    }
+
+    private void handleApiCallError(IOException exception, HttpServletResponse response) {
+        throw new RecipeServiceException("Error occurred while calling external API: " + exception.getMessage(), "102");
     }
 }
