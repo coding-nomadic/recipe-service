@@ -1,4 +1,4 @@
-# recipe-service
+# Recipe-Sharing-Service
 
 This is Backend for recipe server built in springboot, JWT Token and email service. UI is implemented in react JS
 
