@@ -51,5 +51,5 @@ https://token-service.onrender.com/swagger-ui/index.html#/
 - Swagger: https://recipe-service-ixhm.onrender.com/swagger-ui/index.html#/
 - Recipe Service deployed here: https://recipe-service-ixhm.onrender.com
 - Authentication Service Repo: [https://github.com/coding-nomadic/authorisation-service](https://github.com/coding-nomadic/recipe-service/tree/main/authorisation-service-backend)
-- React UI Service Repo: https://github.com/coding-nomadic/recipe-sharing-client
+- React UI Service Repo: [https://github.com/coding-nomadic/recipe-sharing-client](https://github.com/coding-nomadic/recipe-sharing-service/tree/main/recipe-sharing-client)https://github.com/coding-nomadic/recipe-sharing-service/tree/main/recipe-sharing-client
 - React UI deployed here: https://recipe-himalayan.netlify.app/
