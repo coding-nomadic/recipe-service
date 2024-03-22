@@ -1,0 +1,28 @@
+label {
+    position: relative;
+    width: 300px;
+    border: 2px dotted black;
+    margin: 20px;
+    padding: 5px;
+    font-family: AR CENA;
+    font-size: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    background-color: lightblue;
+    margin-left: 2px;
+    position: relative;
+}
+
+
+input[type="number"] {
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    background-color: lightblue;
+    margin-left: 2px;
+    position: relative;
+}
